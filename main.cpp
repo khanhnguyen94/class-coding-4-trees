@@ -12,10 +12,11 @@ void display(string &anItem) {
 }  // end display
 
 void check(bool success) {
-    if (success)
+    if (success) {
         cout << "Done." << endl;
-    else
-        cout << " Entry not in tree." << endl;
+    } else {
+    cout << " Entry not in tree." << endl;
+    }
 }  // end check
 
 int main() {
@@ -282,6 +283,8 @@ int main() {
     cout << "Tree 3 height: " << tree3Ptr->getHeight() << "; should be 3." << endl;
     cout << "Tree 3 number of nodes: " << tree3Ptr->getNumberOfNodes() << "; should be 4." << endl;
 
+    cout << "Tree 3 contains 40: should return FALSE (0): " << tree3Ptr->contains("40") << endl;
+    cout << "Tree 3 contains 80: should return TRUE (1): " << tree3Ptr->contains("80") << endl;
     return 0;
 }  // end main
 /*

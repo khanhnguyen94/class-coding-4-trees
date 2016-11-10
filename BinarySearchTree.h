@@ -9,6 +9,7 @@
 #ifndef _BINARY_SEARCH_TREE
 #define _BINARY_SEARCH_TREE
 
+#include <iostream>
 #include "BinaryTreeInterface.h"
 #include "BinaryNode.h"
 #include "BinaryNodeTree.h"
@@ -113,6 +114,18 @@ template<class ItemType>
 BinaryNode<ItemType> *BinarySearchTree<ItemType>::insertInorder(BinaryNode<ItemType> *subTreePtr,
                                                                 BinaryNode<ItemType> *newNodePtr) {
     //TODO
+
+    if (subTreePtr == NULL) {
+        subTreePtr = newNodePtr;
+        return subTreePtr;
+    } else {
+        if (subTreePtr->getItem() > newNodePtr->getItem()) {
+            subTreePtr->setLeftChildPtr(insertInorder(subTreePtr->getLeftChildPtr(), newNodePtr));
+        } else {
+            subTreePtr->setRightChildPtr(insertInorder(subTreePtr->getRightChildPtr(), newNodePtr));
+        }
+        return subTreePtr;
+    }
 }  // end insertInorder
 
 template<class ItemType>
@@ -120,6 +133,23 @@ BinaryNode<ItemType> *BinarySearchTree<ItemType>::removeValue(BinaryNode<ItemTyp
                                                               const ItemType target,
                                                               bool &success) {
     //TODO
+    if (subTreePtr->getItem() == target) {
+        success = true;
+        subTreePtr = removeNode(subTreePtr);
+        return subTreePtr;
+    } else if (subTreePtr != NULL) {
+        if (subTreePtr->getItem() > target && subTreePtr->getLeftChildPtr() != NULL) {
+            subTreePtr->setLeftChildPtr(removeValue(subTreePtr->getLeftChildPtr(), target, success));
+        } else {
+            if(subTreePtr->getRightChildPtr() != NULL) {
+                subTreePtr->setRightChildPtr(removeValue(subTreePtr->getRightChildPtr(), target, success));
+            }
+        }
+        return subTreePtr;
+    } else {
+        success = false;
+        return NULL;
+    }
 }  // end removeValue
 
 template<class ItemType>
@@ -216,6 +246,20 @@ template<class ItemType>
 BinaryNode<ItemType> *BinarySearchTree<ItemType>::findNode(BinaryNode<ItemType> *subTreePtr,
                                                            const ItemType &target) const {
     //TODO
+    if (subTreePtr == NULL) {
+        return NULL;
+    }
+
+    if (subTreePtr->getItem() == target) {
+        return subTreePtr;
+    } else if (subTreePtr->getItem() > target) {
+        subTreePtr = findNode(subTreePtr->getLeftChildPtr(), target);
+    } else if (subTreePtr->getItem() < target) {
+        subTreePtr = findNode(subTreePtr->getRightChildPtr(), target);
+    } else {
+        return NULL;
+    }
+    return subTreePtr;
 }  // end findNode
 
 
